@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\entrega_modulo6.props" />
+</Project>
