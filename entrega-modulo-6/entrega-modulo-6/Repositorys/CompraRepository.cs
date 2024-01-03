@@ -16,7 +16,7 @@ namespace entrega_modulo6.Repositorys
             _dbContext = entrega_modulo6DBContext;
         }
 
-
+        //buscar
         public async Task<CompraModel> BuscarPorId(int id)
         {
             return await _dbContext.Compra.FirstOrDefaultAsync(x => x.CompraId == id);
@@ -25,6 +25,8 @@ namespace entrega_modulo6.Repositorys
         {
             return await _dbContext.Compra.ToListAsync();
         }
+
+        //criar
         public async Task<CompraModel> Adicionar(CompraModel compra )
         {
             await _dbContext.Compra.AddAsync(compra);
@@ -33,6 +35,7 @@ namespace entrega_modulo6.Repositorys
             return compra;
         }
 
+        //att
         public async Task<CompraModel> Atualizar(CompraModel compra, int id)
         {
             CompraModel compraPorId = await BuscarPorId(id);
@@ -42,7 +45,7 @@ namespace entrega_modulo6.Repositorys
                 throw new Exception($" Usuário de ID: {id} não foi encontrado no banco de dados!");
             }
             compraPorId.CompraId = compra.CompraId;
-            compra.Valor = compra.Valor;
+            compra.ValorCompra = compra.ValorCompra;
             compra.Descricao = compra.Descricao;
            
 
@@ -53,7 +56,7 @@ namespace entrega_modulo6.Repositorys
 
 
         }
-
+        //deletar
         public async Task<bool> Deletar(int id)
         {
             CompraModel compraPorId = await BuscarPorId(id);

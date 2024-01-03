@@ -21,43 +21,95 @@ namespace Entrega_modulo6.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<List<CompraModel>>> ListarCompras()
+        public async Task<ActionResult<List<CompraModel>>> BuscarTodasCompras()
         {
-            List<CompraModel> compra = await _compraRepository.BuscarTodasCompras();
-            return Ok(compra);
+            try
+            {
+                List<CompraModel> compra = await _compraRepository.BuscarTodasCompras();
+                return Ok(compra);
+            }
+            catch (Exception ex)
+            {
+                
+                return StatusCode(500, $"Erro interno do servidor: {ex.Message}");
+            }
+
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<CompraModel>> BuscarPorId(int id)
         {
-            CompraModel compra = await _compraRepository.BuscarPorId(id);
-            return Ok(compra);
+            try
+            {
+
+
+                CompraModel compra = await _compraRepository.BuscarPorId(id);
+                if(compra == null)
+                {
+                    return NotFound("Compra não encontrada");
+                }
+                    return Ok(compra);
+
+            }
+            catch (Exception ex)
+            {
+                
+                return StatusCode(500, $"Erro interno do servidor: {ex.Message}");
+            }
         }
 
         [HttpPost]
         public async Task<ActionResult<CompraModel>> Cadastrar([FromBody] CompraModel  compraModel)
         {
-            CompraModel compra = await _compraRepository.Adicionar(compraModel);
+            try
+            {
+                CompraModel compra = await _compraRepository.Adicionar(compraModel);
 
-            return Ok(compra);
+                return Ok(compra);
+            }
+            catch (Exception ex)
+            {
+                
+                return StatusCode(500, $"Erro interno do servidor: {ex.Message}");
+            }
+
+
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult<CompraModel>> Atualizar([FromBody] CompraModel compraModel, int id)
         {
-            
-            CompraModel compra = await _compraRepository.Atualizar(compraModel, id);
 
-            return Ok(compra);
+            try
+            {
+                compraModel.CompraId = id;
+                CompraModel compra = await _compraRepository.Atualizar(compraModel, id);
+
+                return Ok(compra);
+            }
+            catch (Exception ex)
+            {
+                // Lidar com exceções, registrar, etc.
+                return StatusCode(500, $"Erro interno do servidor: {ex.Message}");
+            }
+
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<CompraModel>> Deletar(int id)
         {
 
-            bool deletado = await _compraRepository.Deletar(id);
+            try
+            {
+                bool deletado = await _compraRepository.Deletar(id);
 
-            return Ok(deletado);
+                return Ok(deletado);
+            }
+            catch (Exception ex)
+            {
+                // Lidar com exceções, registrar, etc.
+                return StatusCode(500, $"Erro interno do servidor: {ex.Message}");
+            }
         }
     }
 }

@@ -18,16 +18,17 @@ namespace entrega_modulo6.Controllers
         }
 
         [HttpGet]
+        //buscar todos os usuarios cadastrados 
         public async Task<ActionResult<List<UsuarioModel>>> BuscarTodosUsuario()
         {
             try
             {
-                List<UsuarioModel> usuarios = await _usuarioRepository.BuscarTodosUsuario();
+                List<UsuarioModel> usuarios = await _usuarioRepository.BuscarTodosUsuarios();
                 return Ok(usuarios);
             }
             catch (Exception ex)
             {
-                // Lidar com exceções, registrar, etc.
+                
                 return StatusCode(500, $"Erro interno do servidor: {ex.Message}");
             }
         }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using entrega_modulo6.Data;
 
@@ -11,9 +12,10 @@ using entrega_modulo6.Data;
 namespace entrega_modulo6.Migrations
 {
     [DbContext(typeof(entrega_modulo6DBContext))]
-    partial class entrega_modulo6DBContextModelSnapshot : ModelSnapshot
+    [Migration("20240103012442_Compra")]
+    partial class Compra
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,6 +62,9 @@ namespace entrega_modulo6.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DestinoId"), 1L, 1);
 
+                    b.Property<int>("CompraId")
+                        .HasColumnType("int");
+
                     b.Property<string>("DataChegada")
                         .IsRequired()
                         .HasMaxLength(10)
@@ -84,7 +89,10 @@ namespace entrega_modulo6.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<int?>("UsuarioModelUsuarioId")
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsuarioId")
                         .HasColumnType("int");
 
                     b.Property<string>("Valor")
@@ -95,7 +103,7 @@ namespace entrega_modulo6.Migrations
 
                     b.HasKey("DestinoId");
 
-                    b.HasIndex("UsuarioModelUsuarioId");
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("destino", (string)null);
                 });
@@ -149,17 +157,27 @@ namespace entrega_modulo6.Migrations
             modelBuilder.Entity("entrega_modulo6.Models.CompraModel", b =>
                 {
                     b.HasOne("entrega_modulo6.Models.DestinoModel", "Destino")
-                        .WithMany()
-                        .HasForeignKey("DestinoId");
+                        .WithMany("Compras")
+                        .HasForeignKey("DestinoId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Destino");
                 });
 
             modelBuilder.Entity("entrega_modulo6.Models.DestinoModel", b =>
                 {
-                    b.HasOne("entrega_modulo6.Models.UsuarioModel", null)
+                    b.HasOne("entrega_modulo6.Models.UsuarioModel", "Usuarios")
                         .WithMany("Destinos")
-                        .HasForeignKey("UsuarioModelUsuarioId");
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Usuarios");
+                });
+
+            modelBuilder.Entity("entrega_modulo6.Models.DestinoModel", b =>
+                {
+                    b.Navigation("Compras");
                 });
 
             modelBuilder.Entity("entrega_modulo6.Models.UsuarioModel", b =>
