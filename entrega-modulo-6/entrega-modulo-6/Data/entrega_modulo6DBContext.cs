@@ -4,6 +4,7 @@ using entrega_modulo6.Models;
 using Microsoft.EntityFrameworkCore;
 
 
+
 namespace entrega_modulo6.Data
 
 {
@@ -22,7 +23,7 @@ namespace entrega_modulo6.Data
 
         public DbSet<UsuarioModel> Usuario { get; set; } = null!;
 
-        public DbSet<DestinoModel> Destino{ get; set; } = null!;
+        public DbSet<DestinoModel> Destino { get; set; } = null!;
 
         public DbSet<CompraModel> Compra { get; set; } = null!;
 
@@ -35,9 +36,9 @@ namespace entrega_modulo6.Data
             modelBuilder.ApplyConfiguration(new DestinoMap());
 
             modelBuilder.ApplyConfiguration(new CompraMap());
-               
-            
-           
+
+
+
 
             base.OnModelCreating(modelBuilder);
 

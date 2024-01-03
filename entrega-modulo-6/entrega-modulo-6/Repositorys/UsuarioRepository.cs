@@ -14,7 +14,7 @@ namespace entrega_modulo6.Repositorys
 
             private readonly entrega_modulo6DBContext _dbContext;
 
-            public UsuarioRepository(entrega_modulo6DBContext entrega_moduloADBContext, entrega_modulo6DBContext entrega_modulo6DBContext)
+            public UsuarioRepository(entrega_modulo6DBContext entrega_modulo6DBContext)
             {
                 _dbContext = entrega_modulo6DBContext;
             }
@@ -24,10 +24,12 @@ namespace entrega_modulo6.Repositorys
             {
                 return await _dbContext.Usuario.FirstOrDefaultAsync(x => x.UsuarioId == id);
             }
-            public async Task<List<UsuarioModel>> BuscarTodosUsuario()
+
+            public async Task<List<UsuarioModel>> BuscarTodosUsuarios()
             {
                 return await _dbContext.Usuario.ToListAsync();
             }
+
             public async Task<UsuarioModel> Adicionar(UsuarioModel usuario)
             {
                 await _dbContext.Usuario.AddAsync(usuario);
@@ -46,6 +48,10 @@ namespace entrega_modulo6.Repositorys
                 }
                 usuarioPorId.Nome = usuario.Nome;
                 usuarioPorId.Cpf = usuario.Cpf;
+                usuarioPorId.Email = usuario.Email;
+                usuarioPorId.Celular = usuario.Celular;
+                usuarioPorId.Senha = usuario.Senha;
+                usuarioPorId.Genero = usuario.Genero;
 
                 _dbContext.Usuario.Update(usuarioPorId);
                 await _dbContext.SaveChangesAsync();
@@ -71,26 +77,8 @@ namespace entrega_modulo6.Repositorys
 
             }
 
-        Task<List<UsuarioModel>> IUsuarioRepository.BuscarTodosUsuario()
-        {
-            throw new NotImplementedException();
+       
         }
-
-        Task<UsuarioModel> IUsuarioRepository.BuscarPorId(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<UsuarioModel> AdicionarUsuario(UsuarioModel usuario)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<UsuarioModel> AtualizarUsuario(UsuarioModel usuario, int id)
-        {
-            throw new NotImplementedException();
-        }
-    }
-    }
+}
 
 

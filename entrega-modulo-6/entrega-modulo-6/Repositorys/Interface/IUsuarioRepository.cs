@@ -6,7 +6,7 @@ namespace entrega_modulo6.Repositorys.Interface
 {
     public interface IUsuarioRepository
     {
-        Task<List<UsuarioModel>> BuscarTodosUsuario();
+        Task<List<UsuarioModel>> BuscarTodosUsuarios();
         Task<UsuarioModel> BuscarPorId(int id);
         Task<UsuarioModel> Adicionar(UsuarioModel usuario);
         Task<UsuarioModel> Atualizar(UsuarioModel usuario, int id);
